@@ -17,10 +17,13 @@
   </v-container>
 </template>
 <script>
+import midlayout from '@/middleware/layout.js'
+
 export default {
+  layout: midlayout,
+
   data () {
     return {
-
       loading: false,
       tab: null,
       products: [],
@@ -64,6 +67,10 @@ export default {
   created () {
     this.fetchProducts()
     this.fetchStorageItems()
+    if (this.$auth.state.user.accessLevel === 'STAFF') {
+      this.productHeaders.splice(-1)
+      this.storageHeaders.splice(-1)
+    }
   },
   methods: {
     async fetchProducts () {

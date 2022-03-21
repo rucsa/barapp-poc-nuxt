@@ -36,9 +36,6 @@ export default {
     { src: '~/plugins/vuex-persist', ssr: false }
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
-  components: true,
-
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
@@ -48,7 +45,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', ['nuxt-log', {
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth-next', ['nuxt-log', {
     isEnabled: true,
     // required ['debug', 'info', 'warn', 'error', 'fatal']
     logLevel: 'debug',
@@ -62,6 +59,30 @@ export default {
   axios: {
     // baseURL: process.env.API_BASE_URL
     baseURL: 'http://127.0.0.1:8080'
+  },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token'
+        },
+        user: {
+          property: false,
+          autoFetch: true
+        },
+        endpoints: {
+          login: {
+            url: '/auth/login',
+            method: 'post'
+          },
+          logout: false,
+          user: {
+            url: '/auth/user',
+            method: 'get'
+          }
+        }
+      }
+    }
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -81,7 +102,9 @@ export default {
       }
     }
   },
-
+  router: {
+    middleware: ['auth']
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   }

@@ -93,11 +93,6 @@ export default {
       settingsDialog: false,
       items: [
         {
-          icon: 'mdi-alien-outline',
-          title: 'Session',
-          to: '/session'
-        },
-        {
           icon: 'mdi-database',
           title: 'Box Status',
           to: '/storage'

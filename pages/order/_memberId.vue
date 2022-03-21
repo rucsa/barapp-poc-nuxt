@@ -2,7 +2,7 @@
   <v-container>
     <v-card elevation="0">
       <v-card-title class="d-flex justify-center">
-        {{ `${memberName} | ${member.availableClovers}` }}
+        {{ `${memberName} | ${member.availableClovers != null ? member.availableClovers : 'Ice'}` }}
       </v-card-title>
       <v-card-text>
         <v-card outlined class="my-1">
@@ -50,10 +50,7 @@
             </v-col>
             <v-spacer />
             <v-col cols="4" class="d-flex justify-center pr-8 py-1 ma-0">
-              <p v-if="enoughFunds===true" class="text-overline secondary--text">
-                Add more clovers!
-              </p>
-              <p v-else class="text-h5 secondary--text pt-3">
+              <p class="text-h5 secondary--text pt-3">
                 {{ grandTotal }}
               </p>
             </v-col>
@@ -73,8 +70,10 @@
 </template>
 <script>
 import FabButton from '../../components/FabButton.vue'
+import midlayout from '@/middleware/layout.js'
 export default {
   components: { FabButton },
+  layout: midlayout,
   data () {
     return {
       confirmOrderDialog: false,
@@ -185,9 +184,10 @@ export default {
       this.selectedItems.splice(deleteIndex, 1)
     },
     order () {
-      if (this.grandTotal > 0 && this.enoughFunds === true) {
-        this.confirmOrderDialog = true
-      }
+      // if (this.grandTotal > 0 && this.enoughFunds === true) {
+      //   this.confirmOrderDialog = true
+      // }
+      this.confirmOrderDialog = true
     },
     confirm () {
       this.$log.debug('confirm order todo')

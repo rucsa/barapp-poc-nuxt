@@ -48,9 +48,13 @@
   </v-container>
 </template>
 <script>
+
 import FabButton from '../components/FabButton.vue'
+import midlayout from '@/middleware/layout.js'
+
 export default {
   components: { FabButton },
+  layout: midlayout,
   data () {
     return {
       search: '',
@@ -105,7 +109,7 @@ export default {
     },
     registerNewMember () {
       this.$log.debug('Register new member')
-      this.$router.push('/register')
+      this.$router.push('/register-simple')
     },
     newOrder () {
       this.$router.push('/order')

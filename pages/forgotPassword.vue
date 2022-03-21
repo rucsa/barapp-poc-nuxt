@@ -12,6 +12,7 @@
 </template>
 <script>
 export default {
+  layout: 'member',
   data () {
     return {
       email: null

@@ -23,7 +23,10 @@
   </v-container>
 </template>
 <script>
+import midlayout from '@/middleware/layout.js'
+
 export default {
+  layout: midlayout,
   data () {
     return {
       confirmSaveDialog: false,

@@ -11,25 +11,6 @@
               <v-text-field v-model="newCatcher.username" :rules="nameRules" label="Username" />
             </v-col>
             <v-col cols="12">
-              <v-text-field
-                v-model="confirmPassword"
-                label="Password"
-                :type="showCode ? 'text' : 'password'"
-                append-icon="mdi-eye"
-                @click:append-outer="showPassCode = !showPassCode"
-              />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field
-                v-model="newCatcher.password"
-                :rules="passwordConfirm"
-                label="Confirm password"
-                :type="showCode ? 'text' : 'password'"
-                append-icon="mdi-eye"
-                @click:append-outer="showPassCode = !showPassCode"
-              />
-            </v-col>
-            <v-col cols="12">
               <v-text-field v-model="newCatcher.firstname" :rules="nameRules" label="Firstname" />
             </v-col>
             <v-col cols="12">
@@ -40,29 +21,6 @@
             </v-col>
             <v-col cols="12">
               <v-text-field v-model="newCatcher.email" :rules="emailRules" label="Email" />
-            </v-col>
-            <v-col cols="12">
-              <v-select
-                v-model="newCatcher.accessLevel"
-                :items="roles"
-                label="Access Level"
-                outlined
-                item-text="text"
-                item-value="value"
-              />
-            </v-col>
-            <v-col v-if="newCatcher.accessLevel !== 'MEMBER'" cols="12">
-              <v-text-field
-                v-model="inputAccessCode"
-                :rules="required"
-                label="Access Code"
-                :type="showCode ? 'text' : 'password'"
-                append-icon="mdi-eye"
-                @click:append-outer="showCode = !showCode"
-              />
-              <p v-if="wrongCodeError" class="red--text">
-                Wrong code!
-              </p>
             </v-col>
           </v-row>
         </v-form>
@@ -83,7 +41,6 @@ export default {
   data () {
     return {
       showCode: false,
-      showPassCode: false,
       wrongCodeError: false,
       secredAccessCode: 'triptease',
       inputAccessCode: null,
@@ -110,7 +67,8 @@ export default {
         guestOf: null,
         email: null,
         availableClovers: 0,
-        accessLevel: 'MEMBER'
+        accessLevel: 'MEMBER',
+        payedTicketThisSession: false
       },
       nameRules: [
         v => !!v || 'Required!',
@@ -123,14 +81,6 @@ export default {
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'E-mail must be valid'
-      ],
-      required: [
-        v => !!v || 'Code is required'
-      ],
-      passwordConfirm: [
-        v => !!v || 'Confirmation required',
-        v => v === this.confirmPassword || 'Password does not match'
-
       ]
     }
   },
@@ -145,13 +95,7 @@ export default {
   methods: {
     async registerNewUser () {
       if (this.$refs.form.validate()) {
-        if (this.newCatcher.accessLevel !== 'MEMBER') {
-          if (this.inputAccessCode !== this.secredAccessCode) {
-            this.wrongCodeError = true
-            return
-          }
-        }
-        const newUserId = await this.$axios.post('/register', { newUser: this.newCatcher }).then((res) => { return res.data })
+        const newUserId = await this.$axios.post('/register-simple', { newUser: this.newCatcher }).then((res) => { return res.data })
         this.$router.push(`/profile/${newUserId.userId}`)
       }
     }
