@@ -1,48 +1,75 @@
 <template>
   <v-container fluid class="d-flex justify-center">
-    <v-card :key="componentKey" outlined width="500">
-      <v-card-title class="d-flex justify-center py-5 text-h4">
-        {{ memberName }}
-      </v-card-title>
-      <v-card-text class="pt-10 pb-10">
-        <v-row class="d-flex justify-center">
-          <v-col cols="6" class="d-flex justify-center">
-            <p class="text-subtitle-1 pt-2 pl-2">
-              Ticket
-            </p>
-          </v-col>
-          <v-col cols="6" class="d-flex justify-center">
-            <v-icon v-if="member.payedTicketThisSession === true" color="green" class="pb-2">
-              mdi-check-circle-outline
-            </v-icon>
-            <v-btn v-else color="secondary" @click="ticketPaymentDialog = true">
-              Pay ticket
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row class="d-flex justify-center">
-          <v-col cols="6" class="d-flex justify-center">
-            <p class="text-subtitle-1 pt-2">
-              {{ isFilling === true ? 'Add clovers': 'Available funds' }}
-            </p>
-          </v-col>
-          <v-col cols="4" class="d-flex justify-center">
-            <p v-if="isFilling === false" class="text-h4">
-              {{ member.availableClovers }}
-            </p>
-            <v-text-field v-else v-model="sumToFill" label="Clovers" class="pt-0" />
-          </v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-actions class="d-flex justify-center py-4">
-        <v-btn :color="!isFilling && member.availableClovers <= 0 ? 'secondary' : $vuetify.theme.primary" @click="leftButtonPressed">
-          {{ isFilling === true ? 'Cancel': 'Refill' }}
-        </v-btn>
-        <v-btn v-show="isFilling === true || member.availableClovers > 0" color="secondary" @click="actionButtonPressed">
-          {{ isFilling === true ? 'Add Clovers': 'Order' }}
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+    <v-col>
+      <v-card :key="componentKey" outlined width="500">
+        <v-card-title class="d-flex justify-center py-5 text-h4">
+          {{ memberName }}
+        </v-card-title>
+        <v-card-text class="pt-10 pb-10">
+          <v-row class="d-flex justify-center">
+            <v-col cols="6" class="d-flex justify-center">
+              <p class="text-subtitle-1 pt-2 pl-2">
+                Ticket
+              </p>
+            </v-col>
+            <v-col cols="6" class="d-flex justify-center">
+              <v-icon v-if="member.payedTicketThisSession === true" color="green" class="pb-2">
+                mdi-check-circle-outline
+              </v-icon>
+              <v-btn v-else color="secondary" @click="ticketPaymentDialog = true">
+                Pay ticket
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row class="d-flex justify-center">
+            <v-col cols="6" class="d-flex justify-center">
+              <p class="text-subtitle-1 pt-2">
+                {{ isFilling === true ? 'Add clovers': 'Available funds' }}
+              </p>
+            </v-col>
+            <v-col cols="4" class="d-flex justify-center">
+              <p v-if="isFilling === false" class="text-h4">
+                {{ member.availableClovers }}
+              </p>
+              <v-text-field v-else v-model="sumToFill" label="Clovers" class="pt-0" />
+            </v-col>
+          </v-row>
+        </v-card-text>
+        <v-card-actions class="d-flex justify-center py-4">
+          <v-btn :color="!isFilling && member.availableClovers <= 0 ? 'secondary' : $vuetify.theme.primary" @click="leftButtonPressed">
+            {{ isFilling === true ? 'Cancel': 'Refill' }}
+          </v-btn>
+          <v-btn v-show="isFilling === true || member.availableClovers > 0" color="secondary" @click="actionButtonPressed">
+            {{ isFilling === true ? 'Add Clovers': 'Order' }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+      <v-card v-if="idAdmin === true" outlined class="mt-3">
+        <v-card-text>
+          <v-row class="d-flex justify-center">
+            <v-col cols="6" class="d-flex justify-center">
+              <v-text-field v-model="member.guestOf" label="Guest of" />
+            </v-col>
+            <v-col cols="6" class="d-flex justify-center">
+              <v-btn icon class="mt-3" @click="resetPassword">
+                <v-icon>
+                  mdi-account-lock-open
+                </v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center">
+              <v-text-field v-model="member.lastUpdatedAt" label="Ultimul update" />
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center">
+              <v-text-field v-model="member.createdBy" label="Creat de" />
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center">
+              <v-text-field v-model="member.createdAt" label="Creat la" />
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
     <v-dialog v-model="ticketPaymentDialog" width="600" persistent>
       <ConfirmDialog
         :text="'Confirm order of ' + ticketPrice + ' for ' + memberName + '?'"
@@ -68,12 +95,16 @@ export default {
         firstname: null,
         lastname: null,
         availableClovers: null,
-        payedTicketThisSession: false
+        payedTicketThisSession: false,
+        guestOf: null
       },
       ticketPrice: 30
     }
   },
   computed: {
+    idAdmin () {
+      return this.$auth.state.user.accessLevel === 'ADMIN'
+    },
     memberId () {
       return this.$route.path.split('/')[2]
     },
@@ -117,6 +148,9 @@ export default {
         text: `${this.ticketPrice} clovers from ${this.memberName}`
       })
       this.fetchMemberData()
+    },
+    resetPassword () {
+      this.$router.push(`/pass-reset/${this.memberId}`)
     }
   }
 }

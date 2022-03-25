@@ -93,19 +93,29 @@ export default {
       settingsDialog: false,
       items: [
         {
-          icon: 'mdi-alien-outline',
-          title: 'Session',
-          to: '/session'
+          icon: 'mdi-liquor',
+          title: 'Box Status',
+          to: '/products'
         },
         {
           icon: 'mdi-database',
-          title: 'Box Status',
+          title: 'Storage',
           to: '/storage'
         },
         {
           icon: 'mdi-account-cowboy-hat',
           title: 'Register Account',
           to: '/register'
+        },
+        {
+          icon: 'mdi-account-group',
+          title: 'Accounts',
+          to: '/admin'
+        },
+        {
+          icon: 'mdi-alien-outline',
+          title: 'Session',
+          to: '/session'
         },
         {
           icon: 'mdi-logout',

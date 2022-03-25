@@ -72,14 +72,13 @@ export default {
       },
       nameRules: [
         v => !!v || 'Required!',
-        v => /^[a-zA-Z0-9]*$/.test(v) || 'Only letters and digits allowed!'
+        v => /^[a-zA-Z0-9_]*$/.test(v) || 'Only letters, digits and _ allowed!'
       ],
       passwordRules: [
         v => !!v || 'Password is required',
         v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || 'Password must contain at least lowercase letter, one number, a special character and one uppercase letter'
       ],
       emailRules: [
-        v => !!v || 'E-mail is required',
         v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'E-mail must be valid'
       ]
     }

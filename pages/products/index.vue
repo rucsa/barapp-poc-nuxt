@@ -2,13 +2,13 @@
   <v-container fluid>
     <v-card>
       <v-card-title class="d-flex justify-center">
-        Storage
+        Products
       </v-card-title>
       <v-card-text>
-        <StorageTable :headers="storageHeaders" :items="storageItems" @edit="editStorage" />
+        <StorageTable :headers="productHeaders" :items="products" @edit="editProduct" />
       </v-card-text>
     </v-card>
-    <FabButton :right="true" @clicked="addItem" />
+    <FabButton v-if="$auth.state.user.accessLevel === 'ADMIN'" :right="true" @clicked="addProduct" />
   </v-container>
 </template>
 <script>
@@ -22,8 +22,7 @@ export default {
       loading: false,
       tab: null,
       products: [],
-      storageItems: [],
-      storageHeaders: [
+      productHeaders: [
         {
           text: 'Nume',
           value: 'denumire',
@@ -32,7 +31,13 @@ export default {
         },
         {
           text: 'Cantitate',
-          value: 'qty',
+          value: 'currentQty',
+          sortable: false,
+          align: 'center'
+        },
+        {
+          text: 'Clovers',
+          value: 'clovers',
           sortable: false,
           align: 'center'
         },
@@ -43,23 +48,19 @@ export default {
     }
   },
   created () {
-    this.fetchStorageItems()
-    if (this.$auth.state.user.accessLevel === 'STAFF') {
-      this.productHeaders.splice(-1)
-      this.storageHeaders.splice(-1)
-    }
+    this.fetchProducts()
   },
   methods: {
-    async fetchStorageItems () {
-      this.storageItems = await this.$axios.get('/storage/all').then((res) => {
+    async fetchProducts () {
+      this.products = await this.$axios.get('/products').then((res) => {
         return res.data
       })
     },
-    editStorage (item) {
-      this.$router.push(`/storage/item/crud/${item._id}`)
+    addProduct () {
+      this.$router.push('/products/crud')
     },
-    addItem () {
-      this.$router.push('/storage/item/crud')
+    editProduct (item) {
+      this.$router.push(`/products/crud/${item._id}`)
     }
   }
 }

@@ -2,13 +2,26 @@
   <v-container>
     <v-card elevation="0">
       <v-card-title class="d-flex justify-center">
-        {{ `${memberName} | ${member.availableClovers != null ? member.availableClovers : 'Ice'}` }}
+        {{
+          `${memberName} | ${
+            member.availableClovers != null ? member.availableClovers : "Ice"
+          }`
+        }}
       </v-card-title>
       <v-card-text>
         <v-card outlined class="my-1">
           <v-row class="pa-2">
-            <v-col v-for="item in products" :key="item._id" cols="6" class="d-flex justify-center">
-              <v-btn :color="item.color" :class="item.textColor + '--text' " @click="addItem(item)">
+            <v-col
+              v-for="item in products"
+              :key="item._id"
+              cols="6"
+              class="d-flex justify-center"
+            >
+              <v-btn
+                :color="item.color"
+                :class="item.textColor + '--text'"
+                @click="addItem(item)"
+              >
                 {{ item.denumire }}
               </v-btn>
             </v-col>
@@ -83,38 +96,7 @@ export default {
         lastname: null,
         availableClovers: null
       },
-      products: [
-        {
-          _id: 1,
-          name: 'Apa',
-          clovers: 10
-        },
-        {
-          _id: 2,
-          name: 'Peroni',
-          clovers: 10
-        },
-        {
-          _id: 3,
-          name: 'Despe',
-          clovers: 10
-        },
-        {
-          _id: 4,
-          name: 'Shot',
-          clovers: 10
-        },
-        {
-          _id: 5,
-          name: 'Gin',
-          clovers: 25
-        },
-        {
-          _id: 6,
-          name: 'Cuba',
-          clovers: 25
-        }
-      ],
+      products: [],
       selectedItems: []
     }
   },
@@ -147,7 +129,7 @@ export default {
   methods: {
     async fetchProducts () {
       this.products = await this.$axios.get('/products').then((res) => {
-        return res.data
+        return res.data.sort((a, b) => (a.denumire > b.denumire) ? 1 : -1)
       })
     },
     async fetchMemberData () {
@@ -205,7 +187,6 @@ export default {
       })
       this.$router.push('/')
     }
-
   }
 }
 </script>

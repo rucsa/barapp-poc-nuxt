@@ -29,9 +29,10 @@ export default {
     return {
       confirmSaveDialog: false,
       item: {
+        _id: null,
         denumire: null,
-        size: null,
-        portion: null
+        clovers: null,
+        mix: []
       }
     }
   },
@@ -59,7 +60,7 @@ export default {
         // create
       }
       this.confirmSaveDialog = false
-      this.$router.push('/storage')
+      this.$router.push('/products')
     }
   }
 }

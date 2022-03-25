@@ -93,9 +93,9 @@ export default {
       settingsDialog: false,
       items: [
         {
-          icon: 'mdi-database',
+          icon: 'mdi-liquor',
           title: 'Box Status',
-          to: '/storage'
+          to: '/products'
         },
         {
           icon: 'mdi-logout',

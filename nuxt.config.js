@@ -11,8 +11,8 @@ export default {
   ],
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - nuxt-front',
-    title: 'nuxt-front',
+    titleTemplate: '%s',
+    title: 'TripCatchers',
     htmlAttrs: {
       lang: 'en'
     },
@@ -58,6 +58,7 @@ export default {
   ],
   axios: {
     // baseURL: process.env.API_BASE_URL
+    // baseURL: 'http://89.46.7.105:8080'
     baseURL: 'http://127.0.0.1:8080'
   },
   auth: {

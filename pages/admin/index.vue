@@ -24,18 +24,12 @@
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template #item.actions="{ item }">
-              <v-icon
-                small
-                class="mr-2"
-                @click.stop="refillmember(item)"
-              >
+              <v-icon small class="mr-2" @click.stop="refillmember(item)">
                 mdi-safe
               </v-icon>
             </template>
             <template #no-data>
-              <v-btn
-                color="primary"
-              >
+              <v-btn color="primary">
                 No data
               </v-btn>
             </template>
@@ -43,13 +37,16 @@
         </v-col>
       </v-row>
     </v-card>
-    <FabButton icon-name="mdi-account-plus" :right="false" @clicked="registerNewMember" />
+    <FabButton
+      icon-name="mdi-account-plus"
+      :right="false"
+      @clicked="registerNewMember"
+    />
     <FabButton :right="true" @clicked="newOrder" />
   </v-container>
 </template>
 <script>
-
-import FabButton from '../components/FabButton.vue'
+import FabButton from './../../components/FabButton.vue'
 import midlayout from '@/middleware/layout.js'
 
 export default {
@@ -64,15 +61,29 @@ export default {
       },
       headers: [
         {
+          text: 'Username',
+          value: 'username'
+        },
+        {
           text: 'Cathcer',
           value: 'name'
+        },
+        {
+          text: 'Access',
+          value: 'accessLevel'
+        },
+        {
+          text: 'Bilet',
+          value: 'payedTicketThisSession'
         },
         {
           text: 'Clovers',
           value: 'availableClovers'
         },
         {
-          text: 'Actions', value: 'actions', sortable: false
+          text: 'Actions',
+          value: 'actions',
+          sortable: false
         }
       ],
       members: []
@@ -83,7 +94,9 @@ export default {
       return this.$route.path.split('/')[2]
     },
     memberName () {
-      return this.member.lastname != null ? `${this.member.firstname} ${this.member.lastname}` : `${this.member.firstname}`
+      return this.member.lastname != null
+        ? `${this.member.firstname} ${this.member.lastname}`
+        : `${this.member.firstname}`
     }
   },
   created () {
@@ -91,18 +104,20 @@ export default {
   },
   methods: {
     async fetchData () {
-      const res = await this.$axios.get('/users').then((res) => { return res })
+      const res = await this.$axios.get('/users').then((res) => {
+        return res
+      })
       this.members = []
       res.data.forEach((member) => {
-        if (member.accessLevel !== 'STAFF') {
-          const lastname = member.lastname == null ? '' : member.lastname
-          member.name = member.firstname + ' ' + lastname
-          this.members.push(member)
-        }
+        const lastname = member.lastname == null ? '' : member.lastname
+        member.name = member.firstname + ' ' + lastname
+        this.members.push(member)
       })
     },
     rowClick (rowData) {
-      if (rowData.availableClovers <= 0) { this.$router.push(`/profile/${rowData._id}`) } else {
+      if (rowData.availableClovers <= 0 || this.$route.path === '/admin') {
+        this.$router.push(`/profile/${rowData._id}`)
+      } else {
         this.$router.push(`/order/${rowData._id}`)
       }
     },
