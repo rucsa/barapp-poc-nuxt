@@ -25,27 +25,26 @@ export default {
       storageItems: [],
       storageHeaders: [
         {
-          text: 'Nume',
+          text: 'Name',
           value: 'denumire',
           sortable: false,
           align: 'center'
         },
         {
-          text: 'Cantitate',
+          text: 'Quantity',
           value: 'qty',
           sortable: false,
           align: 'center'
         },
         {
-          text: 'Actions', value: 'actions', sortable: false
+          text: 'Actions', value: 'actions', sortable: false, align: 'center'
         }
       ]
     }
   },
   created () {
     this.fetchStorageItems()
-    if (this.$auth.state.user.accessLevel === 'STAFF') {
-      this.productHeaders.splice(-1)
+    if (this.$auth.state.user.accessLevel === 'STAFF' || this.$auth.state.user.accessLevel === 'SERGEANT') {
       this.storageHeaders.splice(-1)
     }
   },

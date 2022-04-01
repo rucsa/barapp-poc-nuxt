@@ -9,16 +9,16 @@
       <v-card-text>
         <v-row>
           <v-col cols="12">
-            <v-text-field v-model="item.denumire" label="Denumire" />
+            <v-text-field v-model="item.denumire" label="Item Name" />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="item.qty" label="Nr unitati curent" />
+            <v-text-field v-model="item.qty" label="Current number of units" />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="item.size" label="Ml. per Sticla" />
+            <v-text-field v-model="item.size" label="Ml. per Bottle" />
           </v-col>
           <v-col cols="12">
-            <v-text-field v-model="item.productCode" label="Cod" disabled />
+            <v-text-field v-model="item.productCode" label="Internal Code" disabled />
           </v-col>
           <!-- <v-col cols="12">
             <v-text-field

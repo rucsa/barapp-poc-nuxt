@@ -5,7 +5,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12">
-            <v-text-field v-model="item.denumire" label="Denumire" />
+            <v-text-field v-model="item.denumire" label="Product Name" />
           </v-col>
           <v-col cols="12">
             <v-text-field v-model="item.clovers" label="Cloveri" />
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     itemId () {
-      return this.$route.path.split('/')[4]
+      return this.$route.path.split('/')[3]
     }
   },
   created () {
@@ -55,9 +55,9 @@ export default {
     },
     saveConfirmed () {
       if (this.itemId) {
-        // update
+        this.$log.info('Update functionality todo')
       } else {
-        // create
+        this.$log.info('Create functionality todo')
       }
       this.confirmSaveDialog = false
       this.$router.push('/products')

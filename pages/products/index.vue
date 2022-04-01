@@ -24,13 +24,13 @@ export default {
       products: [],
       productHeaders: [
         {
-          text: 'Nume',
+          text: 'Name',
           value: 'denumire',
           sortable: false,
           align: 'center'
         },
         {
-          text: 'Cantitate',
+          text: 'Quantity',
           value: 'currentQty',
           sortable: false,
           align: 'center'
@@ -42,13 +42,16 @@ export default {
           align: 'center'
         },
         {
-          text: 'Actions', value: 'actions', sortable: false
+          text: 'Actions', value: 'actions', sortable: false, align: 'center'
         }
       ]
     }
   },
   created () {
     this.fetchProducts()
+    if (this.$auth.state.user.accessLevel === 'STAFF' || this.$auth.state.user.accessLevel === 'SERGEANT') {
+      this.productHeaders.splice(-1)
+    }
   },
   methods: {
     async fetchProducts () {

@@ -44,7 +44,7 @@
                   <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <p class="text-overline">
-                  {{ selected.name }}
+                  {{ selected.denumire }}
                 </p>
               </v-row>
             </v-col>

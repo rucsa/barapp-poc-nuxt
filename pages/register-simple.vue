@@ -8,19 +8,19 @@
         <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.username" :rules="nameRules" label="Username" />
+              <v-text-field v-model="newCatcher.firstname" :rules="nameRules" label="First Name" />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.firstname" :rules="nameRules" label="Firstname" />
+              <v-text-field v-model="newCatcher.lastname" :rules="nameRules" label="Last Name" />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.lastname" :rules="nameRules" label="Lastname" />
-            </v-col>
-            <v-col cols="12">
-              <v-text-field v-model="newCatcher.guestOf" :rules="nameRules" label="Guest Of" />
+              <v-text-field v-model="newCatcher.guestOf" :rules="guestNameRules" label="Guest Of" />
             </v-col>
             <v-col cols="12">
               <v-text-field v-model="newCatcher.email" :rules="emailRules" label="Email" />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field v-model="newCatcher.username" :rules="usernameRules" label="Username" />
             </v-col>
           </v-row>
         </v-form>
@@ -45,20 +45,6 @@ export default {
       secredAccessCode: 'triptease',
       inputAccessCode: null,
       confirmPassword: null,
-      roles: [{
-        text: 'Tripper',
-        value: 'MEMBER'
-      },
-      {
-        text: 'DJ',
-        value: 'DJ'
-      },
-      {
-        text: 'Staff',
-        value: 'STAFF'
-      }
-
-      ],
       newCatcher: {
         _id: null,
         username: null,
@@ -70,7 +56,16 @@ export default {
         accessLevel: 'MEMBER',
         payedTicketThisSession: false
       },
+      guestNameRules: [
+        v => !!v || 'Required!',
+        v => /^[A-Za-z]+[A-Za-z\s]*$/.test(v) || 'Invalid name!',
+        v => /^[A-Za-z\s]*$/.test(v) || 'Only letters and space allowed!'
+      ],
       nameRules: [
+        v => !!v || 'Required!',
+        v => /^[a-zA-Z]*$/.test(v) || 'Only letters allowed!'
+      ],
+      usernameRules: [
         v => !!v || 'Required!',
         v => /^[a-zA-Z0-9_]*$/.test(v) || 'Only letters, digits and _ allowed!'
       ],

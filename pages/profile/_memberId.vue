@@ -5,6 +5,9 @@
         <v-card-title class="d-flex justify-center py-5 text-h4">
           {{ memberName }}
         </v-card-title>
+        <v-card-subtitle class="d-flex justify-center ">
+          {{ member.username }}
+        </v-card-subtitle>
         <v-card-text class="pt-10 pb-10">
           <v-row class="d-flex justify-center">
             <v-col cols="6" class="d-flex justify-center">

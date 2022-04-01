@@ -17,9 +17,11 @@
                 v-model="confirmPassword"
                 label="New Password"
                 :rules="required"
-                :type="showPassCode ? 'text' : 'password'"
-                append-icon="mdi-eye"
-                @click:append-outer="showPassCode = !showPassCode"
+                :type="showPass ? 'text' : 'password'"
+                :append-icon="
+                  showPass ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+                "
+                @click:append="showPass = !showPass"
               />
             </v-col>
             <v-col cols="12">
@@ -27,9 +29,11 @@
                 v-model="newPassword"
                 :rules="passwordConfirm"
                 label="Confirm new password"
-                :type="showPassCode ? 'text' : 'password'"
-                append-icon="mdi-eye"
-                @click:append-outer="showPassCode = !showPassCode"
+                :type="showPassConfirm ? 'text' : 'password'"
+                :append-icon="
+                  showPassConfirm ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+                "
+                @click:append="showPassConfirm = !showPassConfirm"
               />
             </v-col>
           </v-row>
@@ -58,7 +62,8 @@ export default {
   data () {
     return {
       showConfirmDialog: false,
-      showPassCode: false,
+      showPass: false,
+      showPassConfirm: false,
       confirmPassword: null,
       newPassword: null,
       member: {

@@ -4,9 +4,15 @@
       fixed
       app
     >
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title>
+        <v-btn plain to="/" class="mt-4 pt-1" :ripple="false">
+          <p class="text-h6">
+            {{ title }}
+          </p>
+        </v-btn>
+      </v-toolbar-title>
       <v-spacer />
-      <v-menu v-model="settingsDialog" nudge-bottom="50">
+      <v-menu v-if="isLogged === true" v-model="settingsDialog" nudge-bottom="50">
         <template #activator="{ on, attrs }">
           <v-btn
             color="secondary"
@@ -45,7 +51,7 @@
       class="d-flex align-end justify-center"
     >
       <div>
-        <span>&copy; {{ new Date().getFullYear() }}  Devix Developments</span>
+        <span>&copy; {{ new Date().getFullYear() }}  Devix D</span>
       </div>
     </v-footer>
   </v-app>
@@ -69,7 +75,10 @@ export default {
       title: 'TripCatchers'
     }
   },
-  methods: {
+  computed: {
+    isLogged () {
+      return this.$auth.state.loggedIn
+    }
   }
 }
 </script>

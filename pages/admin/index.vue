@@ -62,28 +62,33 @@ export default {
       headers: [
         {
           text: 'Username',
-          value: 'username'
+          value: 'username',
+          align: 'center',
+          sortable: true
         },
         {
-          text: 'Cathcer',
-          value: 'name'
+          text: 'Full Name',
+          value: 'name',
+          align: 'center',
+          sortable: true
         },
         {
           text: 'Access',
-          value: 'accessLevel'
+          value: 'accessLevel',
+          align: 'center',
+          sortable: true
         },
         {
-          text: 'Bilet',
-          value: 'payedTicketThisSession'
+          text: 'Ticket',
+          value: 'payedTicketThisSession',
+          align: 'center',
+          sortable: true
         },
         {
           text: 'Clovers',
-          value: 'availableClovers'
-        },
-        {
-          text: 'Actions',
-          value: 'actions',
-          sortable: false
+          value: 'availableClovers',
+          align: 'center',
+          sortable: true
         }
       ],
       members: []

@@ -17,7 +17,13 @@
       >
         <v-icon>mdi-home</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title>
+        <v-btn plain to="/" class="mt-4 pt-1" :ripple="false">
+          <p class="text-h6">
+            {{ title }}
+          </p>
+        </v-btn>
+      </v-toolbar-title>
       <v-spacer />
       <v-menu v-model="settingsDialog" nudge-bottom="50">
         <template #activator="{ on, attrs }">
@@ -140,3 +146,6 @@ export default {
   }
 }
 </script>
+<style scoped>
+
+</style>

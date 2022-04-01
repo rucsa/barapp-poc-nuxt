@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-card-text>
+  <v-container fluid class="d-flex justify-center">
+    <v-card max-width="600">
+      <v-card-text class="px-5">
         <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
             <v-col cols="12">
@@ -22,15 +22,17 @@
           </v-row>
         </v-form>
       </v-card-text>
-      <div @click="forgotPassword">
-        <p class="pl-4 text-caption grey--text">
-          Forgot password?
-        </p>
+      <div>
+        <v-btn plain :ripple="false" @click="forgotPassword">
+          <p class="pl-4 text-caption grey--text">
+            Forgot password?
+          </p>
+        </v-btn>
       </div>
       <v-card-actions class="d-flex justify-end">
         <span class="subtitle-2" style="color: red">{{ loginError }}</span>
         <v-spacer />
-        <v-btn icon color="secondary" @click="login">
+        <v-btn icon color="secondary" class="pa-4 ma-4" @click="login">
           <v-icon>mdi-location-enter</v-icon>
         </v-btn>
       </v-card-actions>
@@ -38,8 +40,10 @@
   </v-container>
 </template>
 <script>
+import midlayout from '@/middleware/layout.js'
+
 export default {
-  layout: 'member',
+  layout: midlayout,
   auth: false,
   data () {
     return {
@@ -69,8 +73,8 @@ export default {
           })
           .then((res) => {
             this.$notify({ group: 'success', text: 'You are in!' })
-            this.$log.info('Sucessfully logged in')
-            if (this.$auth.state.user.accessLevel === 'MEMBER') {
+            this.$log.info(`Sucessfully logged in ${this.$auth.state.user.firstname}`)
+            if (this.$auth.state.user.accessLevel === 'MEMBER' || this.$auth.state.user.accessLevel === 'DJ') {
               this.$router.push(`/welcome/${this.$auth.state.user._id}`)
             } else {
               this.$router.push('/')
