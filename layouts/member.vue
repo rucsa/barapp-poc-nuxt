@@ -79,6 +79,9 @@ export default {
     isLogged () {
       return this.$auth.state.loggedIn
     }
+  },
+  created () {
+    this.$store.dispatch('fetchSessionData')
   }
 }
 </script>

@@ -2,31 +2,48 @@
   <v-container fluid>
     <v-card outlined>
       <v-card-title>
-        {{
-          itemId != null ? "Edit Storage Item" : "Create Storage Item"
-        }}
+        {{ itemId != null ? "Edit Storage Item" : "Create Storage Item" }}
       </v-card-title>
       <v-card-text>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field v-model="item.denumire" label="Item Name" />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field v-model="item.qty" label="Current number of units" />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field v-model="item.size" label="Ml. per Bottle" />
-          </v-col>
-          <v-col cols="12">
-            <v-text-field v-model="item.productCode" label="Internal Code" disabled />
-          </v-col>
-          <!-- <v-col cols="12">
+        <v-form ref="form" class="mx-2" lazy-validation>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="item.denumire"
+                label="Item Name"
+                :rules="titleRules"
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="item.qty"
+                label="Current number of units"
+                :rules="numberRules"
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="item.size"
+                label="Ml. per Bottle"
+                :rules="fullNumberRules"
+              />
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="item.productCode"
+                label="Internal Code"
+                :disabled="itemId != null"
+                :rules="itemId == null ? productCodeRules: []"
+              />
+            </v-col>
+            <!-- <v-col cols="12">
             <v-text-field
               v-model="item.portion"
               label="Ml. per Portie Servire"
             />
           </v-col> -->
-        </v-row>
+          </v-row>
+        </v-form>
       </v-card-text>
     </v-card>
     <FabButton :right="true" icon-name="mdi-check" @clicked="addItem" />
@@ -53,7 +70,21 @@ export default {
         size: null,
         qty: null,
         productCode: null
-      }
+      },
+      titleRules: [
+        v => !!v || 'Required!',
+        v =>
+          /^[A-Za-z0-9\s]*\.?[A-Za-z0-9\s]*$/.test(v) || 'Only letters, digits and . allowed!'
+      ],
+      numberRules: [
+        v => !!v || 'Required!',
+        v => /^\d*\.?\d*$/.test(v) || 'Only digits and a single . allowed!'
+      ],
+      fullNumberRules: [
+        v => !!v || 'Required!',
+        v => /^\d*$/.test(v) || 'Only digits allowed!'
+      ],
+      productCodeRules: [v => v > 15 || 'Code already in use!']
     }
   },
   computed: {
@@ -75,23 +106,36 @@ export default {
         })
     },
     addItem () {
+      if (!this.$refs.form.validate()) {
+        return
+      }
       this.confirmSaveDialog = true
     },
-    saveConfirmed () {
+    async saveConfirmed () {
       if (this.itemId) {
         // update
+        await this.$axios
+          .post('/storage/update-item', { storageItem: this.item })
+          .then((res) => {
+            return res.data
+          })
+          .catch((error) => {
+            this.$log.error(error)
+          })
+        this.$log.debug('Updated storage item')
       } else {
         // create
+        this.$log.debug('Create storage item')
+        await this.$axios
+          .post('/storage/create-item', { storageItem: this.item })
+          .then((res) => {
+            return res.data
+          })
+          .catch((error) => {
+            this.$log.error(error)
+          })
       }
       this.confirmSaveDialog = false
-      this.$axios
-        .post('/storage/update-item', { storageItem: this.item })
-        .then((res) => {
-          return res.data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
       this.$router.push('/storage')
     }
   }

@@ -104,6 +104,11 @@ export default {
           to: '/products'
         },
         {
+          icon: 'mdi-database',
+          title: 'Storage',
+          to: '/storage'
+        },
+        {
           icon: 'mdi-logout',
           title: 'Logout',
           to: '/logout'
@@ -114,6 +119,9 @@ export default {
       rightDrawer: false,
       title: 'TripCatchers'
     }
+  },
+  created () {
+    this.$store.dispatch('fetchSessionData')
   },
   methods: {
     homeButtonPressed () {

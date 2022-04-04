@@ -1,17 +1,21 @@
 <template>
   <v-container>
     <v-card>
-      <v-card-title class="d-flex justify-center">
+      <v-card-title class="d-flex flex-column">
         <p class="text-overline">
           {{ `Reset password for user` }}
         </p>
-        <p class="text-button  secondary--text">
+
+        <p class="text-button secondary--text">
           {{ `${member.username} - ${memberName}` }}
         </p>
       </v-card-title>
       <v-card-text>
         <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
+            <v-col cols="12">
+              <v-text-field v-model="code" label="Code" :rules="required" />
+            </v-col>
             <v-col cols="12">
               <v-text-field
                 v-model="confirmPassword"
@@ -74,18 +78,18 @@ export default {
         availableClovers: null,
         payedTicketThisSession: false
       },
-      required: [
-        v => !!v || 'Required'
-      ],
+      required: [v => !!v || 'Required'],
       passwordRules: [
         v => !!v || 'Password is required',
-        v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || 'Password must contain at least lowercase letter, one number, a special character and one uppercase letter'
+        v =>
+          /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
+          'Password must contain at least lowercase letter, one number, a special character and one uppercase letter'
       ],
       passwordConfirm: [
         v => !!v || 'Confirmation required',
         v => v === this.confirmPassword || 'Password does not match'
-
-      ]
+      ],
+      code: null
     }
   },
   computed: {
@@ -96,7 +100,9 @@ export default {
       return this.$route.path.split('/')[2]
     },
     memberName () {
-      return this.member.lastname != null ? `${this.member.firstname} ${this.member.lastname}` : `${this.member.firstname}`
+      return this.member.lastname != null
+        ? `${this.member.firstname} ${this.member.lastname}`
+        : `${this.member.firstname}`
     }
   },
   created () {
@@ -107,16 +113,36 @@ export default {
       this.$log.debug('Fetching member data')
       const res = await this.$axios
         .get(`/profile/${this.memberId}`)
-        .then((res) => { return res })
+        .then((res) => {
+          return res
+        })
       this.member = res.data
     },
     awaitConfirmation () {
-      if (!this.$refs.form.validate()) { return }
+      if (!this.$refs.form.validate()) {
+        return
+      }
       this.showConfirmDialog = true
     },
-    updatePassword () {
+    async updatePassword () {
       this.showConfirmDialog = false
       this.$log.debug('Functionality todo')
+      const passChange = await this.$axios
+        .post(`/user/${this.memberId}/change`, { newPass: this.newPassword, code: this.code })
+        .then((res) => {
+          this.confirmPassword = null
+          this.newPassword = null
+          this.code = null
+          this.showPassConfirm = false
+          this.showPass = false
+          return res.data
+        })
+        .catch((ex) => {
+          this.$notify({ group: 'error', text: ex.response.data })
+        })
+      if (passChange === true) {
+        this.$notify({ group: 'success', text: `Password changed for user ${this.memberName}` })
+      }
     }
   }
 }

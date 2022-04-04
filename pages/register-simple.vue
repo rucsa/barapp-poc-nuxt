@@ -89,8 +89,12 @@ export default {
   methods: {
     async registerNewUser () {
       if (this.$refs.form.validate()) {
-        const newUserId = await this.$axios.post('/register-simple', { newUser: this.newCatcher }).then((res) => { return res.data })
-        this.$router.push(`/profile/${newUserId.userId}`)
+        const newUserId = await this.$axios.post('/register-simple', { newUser: this.newCatcher }).then((res) => { return res.data }).catch((ex) => {
+          this.$notify({ group: 'error', text: ex.response.data })
+        })
+        if (newUserId != null) {
+          this.$router.push(`/profile/${newUserId.userId}`)
+        }
       }
     }
   }

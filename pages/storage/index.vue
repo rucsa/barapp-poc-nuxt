@@ -50,8 +50,16 @@ export default {
   },
   methods: {
     async fetchStorageItems () {
-      this.storageItems = await this.$axios.get('/storage/all').then((res) => {
+      const items = await this.$axios.get('/storage/all').then((res) => {
         return res.data
+      })
+      this.storageItems = []
+      items.forEach((i) => {
+        const elem = i
+        if (i.qty % 1 !== 0) {
+          elem.qty = i.qty.toFixed(2)
+        }
+        this.storageItems.push(elem)
       })
     },
     editStorage (item) {

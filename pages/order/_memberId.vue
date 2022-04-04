@@ -118,6 +118,9 @@ export default {
         total = total + item.clovers * item.count
       })
       return total
+    },
+    sessionId () {
+      return this.$store.getters.getSessionId
     }
   },
   created () {
@@ -175,7 +178,9 @@ export default {
       this.$log.debug('confirm order todo')
       this.$axios
         .post(`/user/${this.memberId}/new-order`, {
-          grandTotal: this.grandTotal
+          grandTotal: this.grandTotal,
+          content: this.selectedItems,
+          sessionId: this.sessionId
         })
         .then((res) => {
           console.log(res)

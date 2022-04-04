@@ -191,7 +191,9 @@ export default {
         if (this.isLogged === false) {
           this.newCatcher.accessLevel = 'MEMBER' // same in backend
         }
-        const newUserId = await this.$axios.post('/register', { newUser: this.newCatcher }).then((res) => { return res.data })
+        const newUserId = await this.$axios.post('/register', { newUser: this.newCatcher }).then((res) => { return res.data }).catch((ex) => {
+          this.$notify({ group: 'error', text: ex.response.data })
+        })
         if (this.isLogged === false) {
           this.route.push('/')
         }

@@ -30,7 +30,7 @@ export default {
           align: 'center'
         },
         {
-          text: 'Quantity',
+          text: 'Portions',
           value: 'currentQty',
           sortable: false,
           align: 'center'

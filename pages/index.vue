@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-card outlined>
-      <v-card-title>Tabs</v-card-title>
+      <v-card-title>Active Tabs</v-card-title>
       <v-row>
         <v-col cols="12">
           <v-data-table
@@ -9,7 +9,7 @@
             hide-default-footer
             :headers="headers"
             :items="members"
-            item-key="id"
+            item-key="_id"
             :options.sync="pagination"
             :search="search"
             @click:row="rowClick"
@@ -65,14 +65,21 @@ export default {
       headers: [
         {
           text: 'Catcher',
-          value: 'name'
+          value: 'name',
+          align: 'center',
+          sortable: true
         },
         {
           text: 'Clovers',
-          value: 'availableClovers'
+          value: 'availableClovers',
+          align: 'center',
+          sortable: true
         },
         {
-          text: 'Actions', value: 'actions', sortable: false
+          text: 'Actions',
+          value: 'actions',
+          sortable: false,
+          align: 'center'
         }
       ],
       members: []

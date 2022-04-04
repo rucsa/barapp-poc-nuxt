@@ -115,6 +115,9 @@ export default {
       title: 'TripCatchers'
     }
   },
+  created () {
+    this.$store.dispatch('fetchSessionData')
+  },
   methods: {
     homeButtonPressed () {
       console.log(this.$router)
