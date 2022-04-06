@@ -5,12 +5,43 @@
         <v-row>
           <v-col class="d-flex flex-column align-center">
             <p class="text-subtitle-1">
+              Users
+            </p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6" class="d-flex flex-column align-end">
+            <p>Admins:</p>
+            <p>Staff:</p>
+            <p>Members:</p>
+          </v-col>
+          <v-col cols="6">
+            <p>
+              {{
+                sessionStatus.users != null ? sessionStatus.users.admins : ""
+              }}
+            </p>
+            <p>
+              {{
+                sessionStatus.users != null ? sessionStatus.users.staff : ""
+              }}
+            </p>
+            <p>
+              {{
+                sessionStatus.users != null ? sessionStatus.users.members : ""
+              }}
+            </p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="d-flex flex-column align-center">
+            <p class="text-subtitle-1">
               Tickets
             </p>
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6" class="d-flex flex-column align-center">
+          <v-col cols="6" class="d-flex flex-column align-end">
             <p>No. of Tickers:</p>
             <p>Total Clovers:</p>
           </v-col>
@@ -35,7 +66,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6" class="d-flex flex-column align-center">
+          <v-col cols="6" class="d-flex flex-column align-end">
             <p>No. of Refills:</p>
             <p>Total Clovers:</p>
           </v-col>
@@ -60,7 +91,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6" class="d-flex flex-column align-center">
+          <v-col cols="6" class="d-flex flex-column align-end">
             <p>No. of Orders:</p>
             <p>Anonymous Orders:</p>
             <p>Total Clovers:</p>
@@ -93,7 +124,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6" class="d-flex flex-column align-center">
+          <v-col cols="6" class="d-flex flex-column align-end">
             <p>Virtual Tickets:</p>
             <p>Virtual Orders:</p>
             <p>Ice Cubes Tickets:</p>
@@ -142,7 +173,8 @@ export default {
         refills: null,
         tickets: null,
         orders: null,
-        freezer: null
+        freezer: null,
+        users: null
       }
     }
   },
