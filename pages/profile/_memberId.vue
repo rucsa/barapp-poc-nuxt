@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="d-flex justify-center">
     <v-col class="d-flex flex-column align-center">
-      <v-card :key="componentKey" outlined width="500">
+      <v-card :key="componentKey" outlined width="500" class="d-flex flex-column align-center">
         <v-card-title class="d-flex justify-center py-5 text-h4">
           {{ memberName }}
         </v-card-title>
@@ -46,7 +46,7 @@
               </v-col>
             </v-row>
             <v-row class="d-flex justify-center">
-              <v-col cols="6" class="d-flex justify-center">
+              <v-col cols="5" class="d-flex justify-center">
                 <p class="text-subtitle-1 pt-2">
                   {{ isFilling === true ? "Add clovers" : "Available funds" }}
                 </p>
@@ -76,7 +76,8 @@
             </v-row>
           </v-form>
         </v-card-text>
-        <v-card-actions class="d-flex justify-center py-4">
+        <span class="subtitle-2" style="color: #c2185b">{{ errorMessage }}</span>
+        <v-card-actions class="py-4">
           <v-btn
             :color="
               !isFilling && member.availableClovers <= 0
@@ -149,6 +150,7 @@ import midlayout from '@/middleware/layout.js'
 
 export default {
   layout: midlayout,
+  middleware: 'access',
   data () {
     return {
       calculatedTicketValue: null,
@@ -159,6 +161,7 @@ export default {
       isFilling: false,
       sumToFill: null,
       method: null,
+      errorMessage: null,
       ticketPaymentOptions: [
         {
           title: 'From Tab'
@@ -226,6 +229,13 @@ export default {
       return `${date} - ${time}`
     }
   },
+  watch: {
+    isFilling (newVal) {
+      if (newVal === true) {
+        this.errorMessage = null
+      }
+    }
+  },
   created () {
     this.fetchMemberData()
   },
@@ -238,6 +248,9 @@ export default {
           return res
         })
       this.member = res.data
+      if (this.member.availableClovers <= 0) {
+        this.errorMessage = 'Please refill first!'
+      }
     },
     leftButtonPressed () {
       this.isFilling = !this.isFilling
@@ -308,12 +321,16 @@ export default {
         this.calculatedTicketText = this.ticketValue
       } else if (option === 'Cash') {
         this.calculatedTicketText = 'CASH'
-        this.calculatedTicketValue = 0
+        this.calculatedTicketValue = 40
       } else if (option === 'Free') {
         this.calculatedTicketText = 'FREE'
         this.calculatedTicketValue = 0
       }
-      this.ticketPaymentDialog = true
+      if (this.member.availableClovers < this.calculatedTicketValue) {
+        this.errorMessage = 'Please refill first!'
+      } else {
+        this.ticketPaymentDialog = true
+      }
     }
   }
 }

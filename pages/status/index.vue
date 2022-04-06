@@ -4,7 +4,7 @@
       <v-card-text>
         <v-row>
           <v-col class="d-flex flex-column align-center">
-            <p class="text-overline">
+            <p class="text-subtitle-1">
               Tickets
             </p>
           </v-col>
@@ -29,7 +29,7 @@
         </v-row>
         <v-row>
           <v-col class="d-flex justify-center">
-            <p class="text-overline">
+            <p class="text-subtitle-1">
               Refills
             </p>
           </v-col>
@@ -54,7 +54,7 @@
         </v-row>
         <v-row>
           <v-col class="d-flex justify-center">
-            <p class="text-overline">
+            <p class="text-subtitle-1">
               Orders
             </p>
           </v-col>
@@ -62,6 +62,7 @@
         <v-row>
           <v-col cols="6" class="d-flex flex-column align-center">
             <p>No. of Orders:</p>
+            <p>Anonymous Orders:</p>
             <p>Total Clovers:</p>
           </v-col>
           <v-col cols="6">
@@ -72,7 +73,55 @@
             </p>
             <p>
               {{
+                sessionStatus.orders != null
+                  ? sessionStatus.orders.anonymous
+                  : ""
+              }}
+            </p>
+            <p>
+              {{
                 sessionStatus.orders != null ? sessionStatus.orders.total : ""
+              }}
+            </p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="d-flex justify-center">
+            <p class="text-subtitle-1">
+              Freezer Status
+            </p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6" class="d-flex flex-column align-center">
+            <p>Virtual Tickets:</p>
+            <p>Virtual Orders:</p>
+            <p>Ice Cubes Tickets:</p>
+            <p>Ice Cubes Orders:</p>
+          </v-col>
+          <v-col cols="6">
+            <p>
+              {{
+                sessionStatus.freezer != null
+                  ? sessionStatus.freezer.ticketVirtuals
+                  : ""
+              }}
+            </p>
+            <p>
+              {{
+                sessionStatus.freezer != null ? sessionStatus.freezer.orderVirtuals : ""
+              }}
+            </p>
+            <p>
+              {{
+                sessionStatus.freezer != null
+                  ? sessionStatus.freezer.ticketCubes
+                  : ""
+              }}
+            </p>
+            <p>
+              {{
+                sessionStatus.freezer != null ? sessionStatus.freezer.orderCubes : ""
               }}
             </p>
           </v-col>
@@ -86,12 +135,14 @@ import midlayout from '@/middleware/layout.js'
 
 export default {
   layout: midlayout,
+  middleware: 'access',
   data () {
     return {
       sessionStatus: {
         refills: null,
         tickets: null,
-        orders: null
+        orders: null,
+        freezer: null
       }
     }
   },

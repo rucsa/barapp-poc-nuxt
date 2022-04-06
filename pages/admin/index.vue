@@ -52,6 +52,7 @@ import midlayout from '@/middleware/layout.js'
 export default {
   components: { FabButton },
   layout: midlayout,
+  middleware: 'access',
   data () {
     return {
       search: '',

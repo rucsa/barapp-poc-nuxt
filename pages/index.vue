@@ -55,6 +55,7 @@ import midlayout from '@/middleware/layout.js'
 export default {
   components: { FabButton },
   layout: midlayout,
+  auth: true,
   data () {
     return {
       search: '',
@@ -86,14 +87,14 @@ export default {
     }
   },
   computed: {
-    memberId () {
-      return this.$route.path.split('/')[2]
-    },
-    memberName () {
-      return this.member.lastname != null ? `${this.member.firstname} ${this.member.lastname}` : `${this.member.firstname}`
+  },
+  mounted () {
+    if (this.$auth.$state.user.accessLevel === 'MEMBER') {
+      this.$router.push(`/welcome/${this.$auth.$state.user._id}`)
     }
   },
   created () {
+    console.log(this.$router)
     this.fetchData()
   },
   methods: {

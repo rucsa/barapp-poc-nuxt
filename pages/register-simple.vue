@@ -38,6 +38,7 @@ import midlayout from '@/middleware/layout.js'
 
 export default {
   layout: midlayout,
+  middleware: 'access',
   data () {
     return {
       showCode: false,
@@ -93,7 +94,7 @@ export default {
           this.$notify({ group: 'error', text: ex.response.data })
         })
         if (newUserId != null) {
-          this.$router.push(`/profile/${newUserId.userId}`)
+          this.$router.push(`/profile/${newUserId.registerUser._id}`)
         }
       }
     }

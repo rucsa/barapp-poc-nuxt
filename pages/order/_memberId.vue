@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-card elevation="0">
+  <v-container class="d-flex justify-center">
+    <v-card elevation="0" max-width="500">
       <v-card-title class="d-flex justify-center">
         {{
           `${memberName} | ${
@@ -10,16 +10,18 @@
       </v-card-title>
       <v-card-text>
         <v-card outlined class="my-1">
-          <v-row class="pa-2">
+          <v-row class="pa-1">
             <v-col
               v-for="item in products"
               :key="item._id"
-              cols="6"
+
               class="d-flex justify-center"
             >
               <v-btn
+                width="111"
+                min-height="70"
                 :color="item.color"
-                :class="item.textColor + '--text'"
+                :class="item.textColor + '--text mx-2'"
                 @click="addItem(item)"
               >
                 {{ item.denumire }}
@@ -33,9 +35,10 @@
             :key="selected.name"
             class="pa-0 ma-0"
           >
-            <v-col cols="6" class="pl-8">
+            <v-col cols="6" class="pl-4">
               <v-row class="pt-3">
                 <v-btn
+                  class="pt-1"
                   icon
                   small
                   color="secondary"
@@ -87,6 +90,7 @@ import midlayout from '@/middleware/layout.js'
 export default {
   components: { FabButton },
   layout: midlayout,
+  middleware: 'access',
   data () {
     return {
       confirmOrderDialog: false,

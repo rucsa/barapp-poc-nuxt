@@ -42,6 +42,48 @@
     </v-app-bar>
     <v-main>
       <v-container>
+        <notifications
+          group="success"
+          position="top right"
+        >
+          <template slot="body" slot-scope="props">
+            <v-card
+              :rounded="false"
+              elevation="4"
+              color="green"
+              class="mt-1 d-flex justify-center"
+              width="310"
+              height="50"
+            >
+              <p class="text-subtitle-2 px-2 pt-1 font-weight-bold">
+                <span><v-icon class="ma-2 pb-1">mdi-check-circle-outline</v-icon></span>{{ props.item.text }}
+              </p>
+            </v-card>
+          <!-- eslint-disable-next-line vue/html-self-closing
+            <NotificationWidget :data="props"></NotificationWidget> -->
+          </template>
+        </notifications>
+        <notifications
+          group="error"
+          position="top right"
+        >
+          <template slot="body" slot-scope="props">
+            <v-card
+              :rounded="false"
+              elevation="4"
+              color="red"
+              class="mt-1 d-flex justify-center"
+              width="310"
+              height="50"
+            >
+              <p class="text-subtitle-2 px-2 pt-1 font-weight-bold">
+                <span><v-icon class="ma-2 pb-1">mdi-close-circle-outline</v-icon></span>{{ props.item.text }}
+              </p>
+            </v-card>
+          <!-- eslint-disable-next-line vue/html-self-closing
+            <NotificationWidget :data="props"></NotificationWidget> -->
+          </template>
+        </notifications>
         <Nuxt />
       </v-container>
     </v-main>
@@ -81,7 +123,7 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('fetchSessionData')
+    // this.$store.dispatch('fetchSessionData')
   }
 }
 </script>

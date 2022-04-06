@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
-    <v-card outlined>
-      <v-card-title class="d-flex justify-center">
+  <v-container fluid class="d-flex justify-center">
+    <v-card outlined max-width="800" min-width="600">
+      <v-card-title class="d-flex justify-center text-h2 pa-10">
         Welcome
       </v-card-title>
       <v-card-text>
@@ -64,7 +64,6 @@ export default {
       const res = await this.$axios
         .get(`/profile/${this.memberId}`)
         .then((res) => { return res })
-      console.log(res)
       this.member = res.data
     }
   }

@@ -42,7 +42,7 @@ import midlayout from '@/middleware/layout.js'
 
 export default {
   layout: midlayout,
-
+  middleware: 'access',
   data () {
     return {
       sessionData: {

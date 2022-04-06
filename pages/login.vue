@@ -30,7 +30,7 @@
         </v-btn>
       </div>
       <v-card-actions class="d-flex justify-end">
-        <span class="subtitle-2" style="color: red">{{ loginError }}</span>
+        <span class="subtitle-2 pl-6" style="color: #c2185b">{{ loginError }}</span>
         <v-spacer />
         <v-btn icon color="secondary" class="pa-4 ma-4" @click="login">
           <v-icon>mdi-location-enter</v-icon>
@@ -40,10 +40,8 @@
   </v-container>
 </template>
 <script>
-import midlayout from '@/middleware/layout.js'
-
 export default {
-  layout: midlayout,
+  layout: 'member',
   auth: false,
   data () {
     return {
@@ -82,17 +80,9 @@ export default {
           })
           .catch((ex) => {
             this.loading = false
+            this.loginError = ex.response.data
             this.$log.error('%cCould not login ', 'color: #f00')
             this.$log.debug(`${ex.response.status} status code`)
-            if (ex.response.status === 401) {
-              this.loginError = 'Invalid account!'
-            } else if (ex.response.status === 500) {
-              this.loginError = 'Server error!'
-            } else if (ex.response.status === 400) {
-              this.loginError = 'Invalid credentials!'
-            } else {
-              this.loginError = 'Unknown error!'
-            }
           })
       }
     }

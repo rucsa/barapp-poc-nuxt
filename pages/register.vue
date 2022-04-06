@@ -8,22 +8,46 @@
         <v-form ref="form" class="mx-2" lazy-validation>
           <v-row>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.firstname" :rules="nameRules" label="First Name" />
+              <v-text-field
+                v-model="newCatcher.firstname"
+                :rules="nameRules"
+                label="First Name"
+              />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.lastname" :rules="nameRules" label="Last Name" />
+              <v-text-field
+                v-model="newCatcher.lastname"
+                :rules="nameRules"
+                label="Last Name"
+              />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.guestOf" :rules="guestNameRules" label="Guest Of" />
+              <v-text-field
+                v-model="newCatcher.guestOf"
+                :rules="guestNameRules"
+                label="Guest Of"
+              />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.email" :rules="emailRules" label="Email" />
+              <v-text-field
+                v-model="newCatcher.email"
+                :rules="emailRules"
+                label="Email"
+              />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.phone" :rules="phoneRules" label="Phone Number" />
+              <v-text-field
+                v-model="newCatcher.phone"
+                :rules="phoneRules"
+                label="Phone Number"
+              />
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newCatcher.username" :rules="usernameRules" label="Username" />
+              <v-text-field
+                v-model="newCatcher.username"
+                :rules="usernameRules"
+                label="Username"
+              />
             </v-col>
             <v-col cols="12">
               <v-text-field
@@ -43,7 +67,9 @@
                 label="Confirm password"
                 :type="showPassCodeConfirm ? 'text' : 'password'"
                 :append-icon="
-                  showPassCodeConfirm ? 'mdi-eye-outline' : 'mdi-eye-off-outline'
+                  showPassCodeConfirm
+                    ? 'mdi-eye-outline'
+                    : 'mdi-eye-off-outline'
                 "
                 @click:append="showPassCodeConfirm = !showPassCodeConfirm"
               />
@@ -59,7 +85,7 @@
                 item-value="value"
               />
             </v-col>
-            <v-col v-if=" newCatcher.accessLevel !== 'MEMBER'" cols="12">
+            <v-col v-if="newCatcher.accessLevel !== 'MEMBER'" cols="12">
               <v-text-field
                 v-model="inputAccessCode"
                 :rules="required"
@@ -78,7 +104,12 @@
         </v-form>
       </v-card-text>
       <v-card-actions class="d-flex justify-center">
-        <v-btn color="secondary" width="100" class="py-5 mt-3 mb-5" @click="registerNewUser">
+        <v-btn
+          color="secondary"
+          width="100"
+          class="py-5 mt-3 mb-5"
+          @click="registerNewUser"
+        >
           SEND
         </v-btn>
       </v-card-actions>
@@ -100,23 +131,23 @@ export default {
       secredAccessCode: 'triptease',
       inputAccessCode: null,
       confirmPassword: null,
-      roles: [{
-        text: 'Tripper',
-        value: 'MEMBER'
-      },
-      {
-        text: 'DJ',
-        value: 'DJ'
-      },
-      {
-        text: 'Staff',
-        value: 'STAFF'
-      },
-      {
-        text: 'Sergeant',
-        value: 'SERGEANT'
-      }
-
+      roles: [
+        {
+          text: 'Tripper',
+          value: 'MEMBER'
+        },
+        {
+          text: 'DJ',
+          value: 'DJ'
+        },
+        {
+          text: 'Staff',
+          value: 'STAFF'
+        }
+        // {
+        //   text: 'Sergeant',
+        //   value: 'SERGEANT'
+        // }
       ],
       newCatcher: {
         _id: null,
@@ -140,26 +171,31 @@ export default {
       ],
       usernameRules: [
         v => !!v || 'Required!',
-        v => /^[a-zA-Z0-9_]*$/.test(v) || 'Only letters, digits and _ allowed!'
+        v =>
+          /^[a-zA-Z0-9_]*$/.test(v) || 'Only letters, digits and _ allowed!'
       ],
       passwordRules: [
         v => !!v || 'Password is required',
-        v => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) || 'Password must contain at least lowercase letter, one number, a special character and one uppercase letter'
+        v =>
+          /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/.test(v) ||
+          'Password must contain at least lowercase letter, one number, a special character and one uppercase letter'
       ],
       emailRules: [
         // v => !!v || 'E-mail is required',
-        v => /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'E-mail must be valid'
+        v =>
+          /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()\\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            v
+          ) || 'E-mail must be valid'
       ],
-      required: [
-        v => !!v || 'Code is required'
-      ],
+      required: [v => !!v || 'Code is required'],
       passwordConfirm: [
         v => !!v || 'Confirmation required',
         v => v === this.confirmPassword || 'Password does not match'
       ],
       phoneRules: [
         v => !!v || 'Required',
-        v => /^\+\d{11}$/.test(v) || 'Invalid format! For example +40744112233'
+        v =>
+          /^\+\d{11}$/.test(v) || 'Invalid format! For example +40744112233'
       ]
     }
   },
@@ -191,13 +227,25 @@ export default {
         if (this.isLogged === false) {
           this.newCatcher.accessLevel = 'MEMBER' // same in backend
         }
-        const newUserId = await this.$axios.post('/register', { newUser: this.newCatcher }).then((res) => { return res.data }).catch((ex) => {
-          this.$notify({ group: 'error', text: ex.response.data })
-        })
-        if (this.isLogged === false) {
-          this.route.push('/')
+        const newUser = await this.$axios
+          .post('/register', { newUser: this.newCatcher })
+          .then((res) => {
+            return res.data
+          })
+          .catch((ex) => {
+            console.log(ex.response)
+            this.$notify({ group: 'error', text: ex.response.data })
+          })
+        if (newUser != null) {
+          if (this.isLogged === false) {
+            this.$router.push('/')
+          }
+          this.$notify({
+            group: 'success',
+            text: `Successfully created user ${newUser.user.username}`
+          })
+          this.$router.push(`/profile/${newUser.user._id}`)
         }
-        this.$router.push(`/profile/${newUserId.userId}`)
       }
     }
   }

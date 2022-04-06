@@ -61,8 +61,11 @@
   </v-container>
 </template>
 <script>
+import midlayout from '@/middleware/layout.js'
+
 export default {
-  layout: 'admin',
+  layout: midlayout,
+  middleware: 'access',
   data () {
     return {
       showConfirmDialog: false,
