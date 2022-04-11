@@ -1,26 +1,21 @@
 <template>
-  <v-container fluid class="d-flex justify-center">
-    <v-card outlined max-width="800" min-width="600">
+  <v-container fluid class="d-flex flex-column align-center">
+    <v-card outlined max-width="800" min-width="300">
       <v-card-title class="d-flex justify-center text-h2 pa-10">
-        Welcome
+        {{ member.username }}
       </v-card-title>
       <v-card-text>
         <v-row>
-          <v-col cols="6" class="d-flex justify-center">
+          <v-col cols="12" class="d-flex justify-center">
             <p class="text-overline">
-              username
-            </p>
-          </v-col>
-          <v-col cols="6" class="d-flex justify-center">
-            <p class="text-h5">
-              {{ member.username }}
+              {{ memberName }}
             </p>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="6" class="d-flex justify-center">
             <p class="text-overline">
-              clovers
+              available
             </p>
           </v-col>
           <v-col cols="6" class="d-flex justify-center">
@@ -31,6 +26,7 @@
         </v-row>
       </v-card-text>
     </v-card>
+    <v-card outlined max-width="800" min-width="300" class="mt-3" />
   </v-container>
 </template>
 <script>
@@ -50,7 +46,7 @@ export default {
   },
   computed: {
     memberId () {
-      return this.$route.path.split('/')[2]
+      return this.$route.path.split('/')[2] || this.$auth.$state.user._id
     },
     memberName () {
       return this.member.lastname != null ? `${this.member.firstname} ${this.member.lastname}` : `${this.member.firstname}`

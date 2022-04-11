@@ -44,7 +44,7 @@ export default {
   },
   created () {
     this.fetchStorageItems()
-    if (this.$auth.state.user.accessLevel === 'STAFF' || this.$auth.state.user.accessLevel === 'SERGEANT') {
+    if (this.$auth.$state.user.accessLevel === 'STAFF' || this.$auth.$state.user.accessLevel === 'SERGEANT') {
       this.storageHeaders.splice(-1)
     }
   },

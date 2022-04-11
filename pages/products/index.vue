@@ -8,7 +8,7 @@
         <StorageTable :headers="productHeaders" :items="products" @edit="editProduct" />
       </v-card-text>
     </v-card>
-    <FabButton v-if="$auth.state.user.accessLevel === 'ADMIN'" :right="true" @clicked="addProduct" />
+    <FabButton v-if="$auth.$state.user.accessLevel === 'ADMIN'" :right="true" @clicked="addProduct" />
   </v-container>
 </template>
 <script>
@@ -49,7 +49,7 @@ export default {
   },
   created () {
     this.fetchProducts()
-    if (this.$auth.state.user.accessLevel === 'STAFF' || this.$auth.state.user.accessLevel === 'SERGEANT') {
+    if (this.$auth.$state.user.accessLevel === 'STAFF' || this.$auth.$state.user.accessLevel === 'SERGEANT') {
       this.productHeaders.splice(-1)
     }
   },

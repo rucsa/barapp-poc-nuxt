@@ -97,7 +97,7 @@ export default {
   },
   computed: {
     idAdmin () {
-      return this.$auth.state.user.accessLevel === 'ADMIN'
+      return this.$auth.$state.user.accessLevel === 'ADMIN'
     },
     memberId () {
       return this.$route.path.split('/')[2]

@@ -102,7 +102,7 @@ export default {
       const res = await this.$axios.get('/users').then((res) => { return res })
       this.members = []
       res.data.forEach((member) => {
-        if (member.username !== this.$auth.state.user.username) {
+        if (member.username !== this.$auth.$state.user.username) {
           const lastname = member.lastname == null ? '' : member.lastname
           member.name = member.firstname + ' ' + lastname
           this.members.push(member)

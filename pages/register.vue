@@ -117,10 +117,9 @@
   </v-container>
 </template>
 <script>
-import midlayout from '@/middleware/layout.js'
 
 export default {
-  layout: midlayout,
+  layout: 'member',
   auth: false,
   data () {
     return {
@@ -201,10 +200,10 @@ export default {
   },
   computed: {
     isLogged () {
-      return this.$auth.state.loggedIn
+      return this.$auth != null && this.$auth.$state != null && this.$auth.$state.loggedIn
     },
     idAdmin () {
-      return this.$auth.state.user.accessLevel === 'ADMIN'
+      return this.$auth.$state.user.accessLevel === 'ADMIN'
     }
   },
   watch: {

@@ -119,7 +119,7 @@ export default {
   },
   computed: {
     isLogged () {
-      return this.$auth.state.loggedIn
+      return this.$auth != null && this.$auth.$state != null && this.$auth.$state.loggedIn
     }
   },
   created () {
