@@ -43,7 +43,8 @@
         </v-col>
       </v-row>
     </v-card>
-    <FabButton icon-name="mdi-account-plus" :right="false" @clicked="registerNewMember" />
+    <FabButton icon-name="mdi-qrcode-scan" :right="false" @clicked="scanQR" />
+    <!-- <FabButton icon-name="mdi-account-plus" :right="false" @clicked="registerNewMember" /> -->
     <FabButton :right="true" @clicked="newOrder" />
   </v-container>
 </template>
@@ -94,10 +95,12 @@ export default {
     }
   },
   created () {
-    console.log(this.$router)
     this.fetchData()
   },
   methods: {
+    scanQR () {
+      this.$router.push('/scanner')
+    },
     async fetchData () {
       const res = await this.$axios.get('/users').then((res) => { return res })
       this.members = []

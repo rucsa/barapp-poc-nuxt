@@ -16,7 +16,12 @@
                   Ticket
                 </p>
               </v-col>
-              <v-col cols="6" class="d-flex justify-center">
+              <v-col v-if="member.checkedIn === false" cols="6">
+                <v-btn color="secondary" @click="userCheckIn">
+                  Check In
+                </v-btn>
+              </v-col>
+              <v-col v-else cols="6" class="d-flex justify-center">
                 <v-icon
                   v-if="member.payedTicketThisSession === true"
                   color="green"
@@ -181,7 +186,8 @@ export default {
         payedTicketThisSession: false,
         guestOf: null,
         createdAt: null,
-        lastUpdatedAt: null
+        lastUpdatedAt: null,
+        checkedIn: null
       },
       fullNumber: [
         v => !!v || 'Required!',
@@ -240,11 +246,17 @@ export default {
     this.fetchMemberData()
   },
   methods: {
+    async userCheckIn () {
+      this.member = await this.$axios.post('/member/checkin', { sessionId: this.sessionId }).then((res) => {
+        return res.data
+      })
+    },
     async fetchMemberData () {
       this.$log.debug('Fetching member data')
       const res = await this.$axios
         .get(`/profile/${this.memberId}`)
         .then((res) => {
+          console.log(res.data)
           return res
         })
       this.member = res.data
