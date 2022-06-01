@@ -58,7 +58,7 @@ export default {
   ],
   axios: {
     // baseURL: process.env.API_BASE_URL
-    // baseURL: 'http://89.46.7.105:8080'
+    // baseURL: 'https://89.46.7.105:8080'
     baseURL: 'http://127.0.0.1:8080'
   },
   auth: {

@@ -1,13 +1,21 @@
 <template>
-  <v-container>
-    <v-overlay :opacity="1" :value="overlay">
+  <v-container fluid class="d-flex flex-column align-center">
+    <v-overlay
+      :opacity="1"
+      :value="overlay"
+    >
       <v-progress-circular indeterminate size="64">
         Loading...
       </v-progress-circular>
     </v-overlay>
-    <v-card>
-      <v-card-text>
-        <v-row>
+    <v-card elevation="0" min-width="300">
+      <v-card-title :class="`d-flex justify-center pa-10`">
+        <p class=" text-overline ">
+          Hey {{ memberName }},
+        </p>
+      </v-card-title>
+      <v-card-text class="d-flex flex-column align-center">
+        <!--  <v-row>
           <v-col cols="12" class="d-flex justify-center">
             <p class="text-overline">
               {{ member.username }}
@@ -25,7 +33,19 @@
               {{ member.availableClovers }}
             </p>
           </v-col>
-        </v-row>
+        </v-row> -->
+        <p class="text-overline">
+          Ask a Catcher to scan you!
+        </p>
+      </v-card-text>
+    </v-card>
+    <v-card
+      v-if="encodedQr && encodedQr.qr"
+      elevation="0"
+      min-width="300"
+    >
+      <v-card-text class="d-flex justify-center align-center pt-8 pb-16">
+        <img :src="encodedQr && encodedQr.qr ? `${encodedQr.qr}` : '#'">
       </v-card-text>
     </v-card>
   </v-container>
@@ -43,6 +63,7 @@ export default {
         firstname: null,
         lastname: null,
         username: null
+
       },
       redPill: false,
       encodedQr: null
@@ -63,15 +84,21 @@ export default {
   },
   async created () {
     await this.fetchMemberStatus()
-    this.overlay = false
+    if (this.member && this.member.checkedIn === true) {
+      this.$route.push(`/members/room/${this.memberId}`)
+    } else {
+      await this.getQr()
+      this.overlay = false
+    }
   },
   methods: {
     async fetchMemberStatus () {
-      const res = await this.$axios.get('/member-status').then((res) => {
-        return res
-      })
+      const res = await this.$axios
+        .get('/member-status')
+        .then((res) => {
+          return res
+        })
       this.member = res.data.userStatus
-      await this.getQr()
     },
     async getQr () {
       const res = await this.$axios.get('/member-qr').then((res) => {

@@ -73,7 +73,7 @@ export default {
             this.$notify({ group: 'success', text: 'You are in!' })
             this.$log.info(`Sucessfully logged in ${this.$auth.$state.user.firstname}`)
             if (this.$auth.$state.user.accessLevel === 'MEMBER' || this.$auth.$state.user.accessLevel === 'DJ') {
-              this.$router.push(`/welcome/${this.$auth.$state.user._id}`)
+              this.$router.push(`/members/${this.$auth.$state.user._id}`)
             } else {
               this.$router.push('/')
             }

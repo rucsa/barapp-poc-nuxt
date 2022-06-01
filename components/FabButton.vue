@@ -1,18 +1,15 @@
 <template>
-  <v-fab-transition>
-    <v-btn
-      color="secondary"
-      fab
-      dark
-      fixed
-      bottom
-      :right="right"
-      :style="'bottom: 40px;'"
-      @click="buttonClicked"
-    >
-      <v-icon>{{ iconName }}</v-icon>
-    </v-btn>
-  </v-fab-transition>
+  <v-btn
+    color="secondary"
+    fab
+    dark
+    fixed
+    bottom
+    :style="'bottom: 40px;'"
+    @click="buttonClicked"
+  >
+    <v-icon>{{ iconName }}</v-icon>
+  </v-btn>
 </template>
 <script>
 export default {
@@ -24,6 +21,10 @@ export default {
     iconName: {
       type: String,
       default: 'mdi-plus'
+    },
+    center: {
+      type: Boolean,
+      default: true
     }
   },
   data () {

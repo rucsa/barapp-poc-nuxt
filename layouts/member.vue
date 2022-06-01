@@ -92,9 +92,9 @@
       app
       class="d-flex align-end justify-center"
     >
-      <div>
+      <!-- <div>
         <span>&copy; {{ new Date().getFullYear() }}  Devix D</span>
-      </div>
+      </div> -->
     </v-footer>
   </v-app>
 </template>
