@@ -111,7 +111,7 @@ export default {
       this.$router.push('/order')
     },
     goToViewTabs () {
-      this.$router.push('/')
+      this.$router.push('/tabs')
     }
   }
 }

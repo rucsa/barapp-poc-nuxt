@@ -1,6 +1,6 @@
 <template>
-  <v-container class="d-flex justify-center">
-    <v-card elevation="0" max-width="500">
+  <v-container fluid>
+    <v-card elevation="0">
       <v-card-title class="d-flex justify-center">
         {{
           `${memberName} | ${
@@ -74,7 +74,22 @@
         </v-card>
       </v-card-text>
     </v-card>
-    <FabButton @clicked="order" />
+    <v-card>
+      <v-card-text>
+        <v-row>
+          <v-col cols="4">
+            <FabButton icon-name="mdi-qrcode-scan" :right="false" @clicked="goToScanQR" />
+          </v-col>
+          <v-col cols="4">
+            <FabButton icon-name="mdi-account-group" @clicked="goToViewTabs" />
+          </v-col>
+          <v-col cols="4">
+            <FabButton :right="true" @clicked="order" />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+
     <v-dialog v-model="confirmOrderDialog" width="600" persistent>
       <ConfirmDialog
         :text="'Confirm order of ' + grandTotal + ' for ' + memberName + '?'"
@@ -195,6 +210,12 @@ export default {
         text: `${this.grandTotal} clovers from ${this.memberName}`
       })
       this.$router.push('/')
+    },
+    goToScanQR () {
+      this.$router.push('/scanner')
+    },
+    goToViewTabs () {
+      this.$router.push('/tabs')
     }
   }
 }
