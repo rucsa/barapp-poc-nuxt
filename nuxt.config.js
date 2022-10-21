@@ -60,7 +60,7 @@ export default {
     // baseURL: process.env.API_BASE_URL
     baseURL: 'http://127.0.0.1:8080/api'
     // baseURL: 'https://tripcatchers.ro/api'
-    // baseURL: 'http://127.0.0.1:8080/api'
+    // baseURL: 'http://127.0.0.1:8080/api' // vps
   },
   auth: {
     strategies: {
